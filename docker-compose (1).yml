@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      target: runtime
+    container_name: items-api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/itemsdb
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - microservice-net
+
+  db:
+    image: postgres:16-alpine
+    container_name: items-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: itemsdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d itemsdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - microservice-net
+
+volumes:
+  postgres_data:
+
+networks:
+  microservice-net:
+    driver: bridge
