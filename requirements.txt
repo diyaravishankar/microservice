@@ -1,0 +1,15 @@
+# ── Web Framework ──────────────────────────────────────────────────────────────
+fastapi==0.115.0
+uvicorn[standard]==0.30.6        # includes websockets, httptools, uvloop
+
+# ── Database ───────────────────────────────────────────────────────────────────
+sqlalchemy==2.0.35
+psycopg2-binary==2.9.9           # PostgreSQL driver (use psycopg2 in production for non-binary)
+alembic==1.13.3                  # Schema migrations
+
+# ── Validation & Serialization ─────────────────────────────────────────────────
+pydantic==2.9.2
+pydantic-settings==2.5.2         # Settings management via env vars / .env files
+
+# ── Utilities ──────────────────────────────────────────────────────────────────
+python-dotenv==1.0.1             # Load .env files in local development
